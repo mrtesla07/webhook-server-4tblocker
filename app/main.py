@@ -1,4 +1,4 @@
-import logging
+п»їimport logging
 import os
 import re
 from typing import Any, Dict
@@ -18,22 +18,22 @@ app = FastAPI(title="TBlocker Telegram Relay")
 
 
 class TBlockerPayload(BaseModel):
-    chat_id: str = Field(..., description="Адресат, которому tblocker пытался отправить сообщение")
-    text: str = Field(..., description="Форматированное сообщение, содержащее детали блокировки")
+    chat_id: str = Field(..., description="РђРґСЂРµСЃР°С‚, РєРѕС‚РѕСЂРѕРјСѓ tblocker РїС‹С‚Р°Р»СЃСЏ РѕС‚РїСЂР°РІРёС‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ")
+    text: str = Field(..., description="Р¤РѕСЂРјР°С‚РёСЂРѕРІР°РЅРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ, СЃРѕРґРµСЂР¶Р°С‰РµРµ РґРµС‚Р°Р»Рё Р±Р»РѕРєРёСЂРѕРІРєРё")
 
 
 def extract_fields(text: str) -> Dict[str, Any]:
     """
-    Преобразуем текст tblocker в словарь значений.
+    РџСЂРµРѕР±СЂР°Р·СѓРµРј С‚РµРєСЃС‚ tblocker РІ СЃР»РѕРІР°СЂСЊ Р·РЅР°С‡РµРЅРёР№.
 
-    Пример входа:
-    ?? tblocker
-    ?? user: user_2104519441
-    ?? ip: 176.109.188.156
-    ??? server: example-server
-    ? action: unblock
-    ? ttl(s): 60
-    ?? time: 2025-10-09T22:29:21Z
+    РџСЂРёРјРµСЂ РІС…РѕРґР°:
+    рџљ« tblocker
+    рџ‘¤ user: user_2104519441
+    рџЊђ ip: 176.109.188.156
+    рџ–ҐпёЏ server: example-server
+    вљЎ action: unblock
+    вЏі ttl(s): 60
+    рџ•’ time: 2025-10-09T22:29:21Z
     """
     data: Dict[str, Any] = {}
 
@@ -42,7 +42,7 @@ def extract_fields(text: str) -> Dict[str, Any]:
         if not line or ":" not in line:
             continue
 
-        # Отбрасываем emoji / иконки
+        # РћС‚Р±СЂР°СЃС‹РІР°РµРј emoji / РёРєРѕРЅРєРё
         parts = line.split(" ", 1)
         if len(parts) == 2 and ":" in parts[1]:
             line = parts[1]
@@ -75,21 +75,21 @@ def build_user_message(data: Dict[str, Any]) -> str:
     duration_seconds = data.get("duration_seconds") or 60
     duration_minutes = max(1, round(duration_seconds / 60)) if duration_seconds else 1
 
-    server = data.get("server", "неизвестный сервер")
-    ip = data.get("ip", "неизвестный IP")
-    timestamp = data.get("timestamp", "неизвестное время")
+    server = data.get("server", "РЅРµРёР·РІРµСЃС‚РЅС‹Р№ СЃРµСЂРІРµСЂ")
+    ip = data.get("ip", "РЅРµРёР·РІРµСЃС‚РЅС‹Р№ IP")
+    timestamp = data.get("timestamp", "РЅРµРёР·РІРµСЃС‚РЅРѕРµ РІСЂРµРјСЏ")
     action = data.get("action", "block")
 
     return (
-        "?? <b>Временная блокировка</b>\n"
-        "Мы обнаружили трафик, похожий на использование торрентов или p2p-апдейтеров игр.\n\n"
-        f"<b>Статус:</b> {action}\n"
+        "рџљ« <b>Р’СЂРµРјРµРЅРЅР°СЏ Р±Р»РѕРєРёСЂРѕРІРєР°</b>\n"
+        "РњС‹ РѕР±РЅР°СЂСѓР¶РёР»Рё С‚СЂР°С„РёРє, РїРѕС…РѕР¶РёР№ РЅР° РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ С‚РѕСЂСЂРµРЅС‚РѕРІ РёР»Рё p2p-Р°РїРґРµР№С‚РµСЂРѕРІ РёРіСЂ.\n\n"
+        f"<b>РЎС‚Р°С‚СѓСЃ:</b> {action}\n"
         f"<b>IP:</b> <code>{ip}</code>\n"
-        f"<b>Сервер:</b> {server}\n"
-        f"<b>Время фиксации:</b> {timestamp}\n\n"
-        f"Доступ ограничен примерно на {duration_minutes} мин. Блокировка снимается автоматически. "
-        "Чтобы ускорить процесс, остановите приложения, которые используют P2P (торрент-клиенты, обновляторы игр и т.д.).\n\n"
-        "Если считаете это ошибкой — ответьте на сообщение или напишите в поддержку."
+        f"<b>РЎРµСЂРІРµСЂ:</b> {server}\n"
+        f"<b>Р’СЂРµРјСЏ С„РёРєСЃР°С†РёРё:</b> {timestamp}\n\n"
+        f"Р”РѕСЃС‚СѓРї РѕРіСЂР°РЅРёС‡РµРЅ РїСЂРёРјРµСЂРЅРѕ РЅР° {duration_minutes} РјРёРЅ. Р‘Р»РѕРєРёСЂРѕРІРєР° СЃРЅРёРјР°РµС‚СЃСЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё. "
+        "Р§С‚РѕР±С‹ СѓСЃРєРѕСЂРёС‚СЊ РїСЂРѕС†РµСЃСЃ, РѕСЃС‚Р°РЅРѕРІРёС‚Рµ РїСЂРёР»РѕР¶РµРЅРёСЏ, РєРѕС‚РѕСЂС‹Рµ РёСЃРїРѕР»СЊР·СѓСЋС‚ P2P (С‚РѕСЂСЂРµРЅС‚-РєР»РёРµРЅС‚С‹, РѕР±РЅРѕРІР»СЏС‚РѕСЂС‹ РёРіСЂ Рё С‚.Рґ.).\n\n"
+        "Р•СЃР»Рё СЃС‡РёС‚Р°РµС‚Рµ СЌС‚Рѕ РѕС€РёР±РєРѕР№ вЂ” РѕС‚РІРµС‚СЊС‚Рµ РЅР° СЃРѕРѕР±С‰РµРЅРёРµ РёР»Рё РЅР°РїРёС€РёС‚Рµ РІ РїРѕРґРґРµСЂР¶РєСѓ."
     )
 
 
@@ -109,27 +109,27 @@ async def send_telegram_message(token: str, chat_id: str, text: str) -> None:
     except httpx.HTTPError as exc:
         status = getattr(exc.response, "status_code", 502)
         body = getattr(exc.response, "text", str(exc))
-        logger.error("Ошибка отправки сообщения в Telegram: %s - %s", status, body)
-        raise HTTPException(status_code=502, detail="Не удалось отправить сообщение в Telegram") from exc
+        logger.error("РћС€РёР±РєР° РѕС‚РїСЂР°РІРєРё СЃРѕРѕР±С‰РµРЅРёСЏ РІ Telegram: %s - %s", status, body)
+        raise HTTPException(status_code=502, detail="РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РїСЂР°РІРёС‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ РІ Telegram") from exc
 
 
 @app.post("/webhook")
 async def webhook_handler(request: Request) -> Dict[str, str]:
     token = os.getenv("TELEGRAM_BOT_TOKEN")
     if not token:
-        raise HTTPException(status_code=500, detail="Не задан TELEGRAM_BOT_TOKEN")
+        raise HTTPException(status_code=500, detail="РќРµ Р·Р°РґР°РЅ TELEGRAM_BOT_TOKEN")
 
     try:
         payload = TBlockerPayload.model_validate(await request.json())
     except ValidationError as exc:
-        logger.warning("Некорректный payload: %s", exc)
-        raise HTTPException(status_code=400, detail="Некорректный формат payload") from exc
+        logger.warning("РќРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ payload: %s", exc)
+        raise HTTPException(status_code=400, detail="РќРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ С„РѕСЂРјР°С‚ payload") from exc
 
     data = extract_fields(payload.text)
     telegram_id = data.get("telegram_id")
 
     if not telegram_id:
-        raise HTTPException(status_code=400, detail="Не удалось определить Telegram ID пользователя")
+        raise HTTPException(status_code=400, detail="РќРµ СѓРґР°Р»РѕСЃСЊ РѕРїСЂРµРґРµР»РёС‚СЊ Telegram ID РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ")
 
     message = build_user_message(data)
     await send_telegram_message(token, telegram_id, message)
@@ -137,11 +137,11 @@ async def webhook_handler(request: Request) -> Dict[str, str]:
     admin_chat_id = os.getenv("ADMIN_CHAT_ID") or payload.chat_id
     if admin_chat_id:
         admin_message = (
-            "?? <b>tblocker webhook</b>\n"
-            f"Уведомление доставлено пользователю <code>{telegram_id}</code>.\n"
-            f"IP: <code>{data.get('ip', '—')}</code>\n"
-            f"Сервер: {data.get('server', '—')}\n"
-            f"Действие: {data.get('action', '—')}"
+            "в„№пёЏ <b>tblocker webhook</b>\n"
+            f"РЈРІРµРґРѕРјР»РµРЅРёРµ РґРѕСЃС‚Р°РІР»РµРЅРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ <code>{telegram_id}</code>.\n"
+            f"IP: <code>{data.get('ip', 'вЂ”')}</code>\n"
+            f"РЎРµСЂРІРµСЂ: {data.get('server', 'вЂ”')}\n"
+            f"Р”РµР№СЃС‚РІРёРµ: {data.get('action', 'вЂ”')}"
         )
         try:
             await send_telegram_message(token, admin_chat_id, admin_message)
