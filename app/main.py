@@ -298,7 +298,7 @@ async def send_telegram_message(
 async def healthcheck() -> Dict[str, str]:
     return {"status": "ok", "version": app.version}
 
-@app.post("/webhookcfvceyu123")
+@app.post("/webhook")
 async def webhook_handler(request: Request) -> Dict[str, str]:
     token = os.getenv("TELEGRAM_BOT_TOKEN")
     if not token:
