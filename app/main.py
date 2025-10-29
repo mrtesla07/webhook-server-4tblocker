@@ -256,7 +256,7 @@ def build_user_message(data: Dict[str, Any]) -> Dict[str, Any]:
 
     reply_markup = {
         "inline_keyboard": [
-            [{"text": "🆘 Техподдержка", "url": "https://t.me/FreedomSuppRobot"}],
+            [{"text": "🆘 Техподдержка", "url": "https://t.me/SuppRobot"}],
             [{"text": "🏠 На главную", "callback_data": "back_to_menu"}],
         ]
     }
