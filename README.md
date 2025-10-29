@@ -61,7 +61,7 @@ WebhookTemplate: >-
 curl -X POST http://localhost:8000/webhook \
   -H "Content-Type: application/json" \
   -d '{
-    "chat_id": "2104519441",
-    "text": "?? tblocker\n?? user: user_2104519441\n?? ip: 176.109.188.156\n??? server: example-server\n? action: block\n? ttl(s): 60\n?? time: 2025-10-09T22:29:21Z"
+    "chat_id": "2104678941",
+    "text": "?? tblocker\n?? user: user_21045678941\n?? ip: 170.100.188.156\n??? server: example-server\n? action: block\n? ttl(s): 60\n?? time: 2025-10-09T22:29:21Z"
   }'
 ```
